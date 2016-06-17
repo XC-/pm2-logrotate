@@ -29,9 +29,14 @@
     }
   ],
   "config": {
-    "interval_unit" : "DD",
-    "interval" : "1",
-    "max_size" : "10M",
-    "retain" : "none"
+    "interval_unit": "DD",
+    "interval": "1",
+    "max_size": "10M",
+    "retain": "none"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "dirty-chai": "^1.2.2",
+    "mocha": "^2.5.3"
   }
 }

@@ -5,6 +5,9 @@ var pm2     = require('pm2');
 var moment  = require('moment');
 var Rolex   = require('rolex');
 
+var limit_size = require('utils/limit_size');
+
+
 var conf = pmx.initModule({
 
   widget : {
@@ -27,7 +30,7 @@ var conf = pmx.initModule({
 
 
 var WORKER_INTERVAL = moment.duration(50, 'seconds').asMilliseconds();
-var SIZE_LIMIT = get_limit_size(); // 10MB
+var SIZE_LIMIT = limit_size.get_max(); // 10MB
 var INTERVAL_UNIT = conf.interval_unit || 'DD'; // MM = months, DD = days, mm = minutes
 var INTERVAL = parseInt(conf.interval) || 1; // INTERVAL:1 day
 var RETAIN = isNaN(parseInt(conf.retain))? undefined: parseInt(conf.retain); // All
@@ -42,19 +45,7 @@ var durationLegend = {
 
 var gl_file_list = [];
 
-function get_limit_size() {
-  if (conf.max_size == '')
-    return (1024 * 1024 * 10);
-  if (typeof(conf.max_size) !== 'string')
-      conf.max_size = conf.max_size.toString();
-  if (conf.max_size.slice(-1) === 'G')
-    return (parseInt(conf.max_size) * 1024 * 1024 * 1024);
-  if (conf.max_size.slice(-1) === 'M')
-    return (parseInt(conf.max_size) * 1024 * 1024);
-  if (conf.max_size.slice(-1) === 'K')
-    return (parseInt(conf.max_size) * 1024);
-  return parseInt(conf.max_size);
-}
+
 
 function delete_old(file) {
   var fileBaseName = file.substr(0, file.length - 4) + '__';
