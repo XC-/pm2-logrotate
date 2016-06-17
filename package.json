@@ -10,7 +10,7 @@
     "rolex": "0.0.x"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/**/*.js"
   },
   "author": "Joni SHKURTI",
   "repository": {
@@ -37,6 +37,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "dirty-chai": "^1.2.2",
+    "lodash": "^4.13.1",
     "mocha": "^2.5.3"
   }
 }

@@ -6,8 +6,9 @@
  */
 
 const BASE = 1024; // Use binary (kilo binary bytes etc...)
+const DEF_EXP = 2;
 
-const DEF_FACTOR = Math.pow(BASE, 2); // Default factor
+const DEF_FACTOR = Math.pow(BASE, DEF_EXP); // Default factor
 const DEF_MULTIPLIER = 10; // Default multiplier
 
 // Exponents all the way until eksa... just for fun.
@@ -22,7 +23,7 @@ const EXPONENTS = {
 
 
 function get_max_limit_size(max_size) {
-  if (max_size == '') {
+  if (max_size == '' || !max_size) {
     return DEF_FACTOR * DEF_MULTIPLIER;
   }
   const m_size = max_size.toString();  // Make sure that the max_size is a string. But do not alter the conf object.
@@ -32,7 +33,7 @@ function get_max_limit_size(max_size) {
   const exp = EXPONENTS[prefix]; // Get the numeric expornent
 
   // If numeric exponent was found and the multiplier is not NaN, then return multiplier * BASE^exp, else the default.
-  if (exp && isNaN(multiplier)) {
+  if (exp && !isNaN(multiplier)) {
     return multiplier * Math.pow(BASE, exp);
   } else {
     return DEF_FACTOR * DEF_MULTIPLIER;
@@ -40,5 +41,9 @@ function get_max_limit_size(max_size) {
 }
 
 module.exports = {
+  base: BASE,
+  default_exponent: DEF_EXP,
+  default_multiplier: DEF_MULTIPLIER,
+  exponents: EXPONENTS,
   get_max: get_max_limit_size
 };
