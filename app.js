@@ -7,6 +7,8 @@ var Rolex   = require('rolex');
 
 var limit_size = require('utils/limit_size');
 
+const DEFAULT_INTERVAL = 1;
+const DEFAULT_INTERVAL_UNIT = 'DD';
 
 var conf = pmx.initModule({
 
@@ -29,15 +31,16 @@ var conf = pmx.initModule({
 });
 
 
-var WORKER_INTERVAL = moment.duration(50, 'seconds').asMilliseconds();
-var SIZE_LIMIT = limit_size.get_max(); // 10MB
-var INTERVAL_UNIT = conf.interval_unit || 'DD'; // MM = months, DD = days, mm = minutes
-var INTERVAL = parseInt(conf.interval) || 1; // INTERVAL:1 day
-var RETAIN = isNaN(parseInt(conf.retain))? undefined: parseInt(conf.retain); // All
 
-var NOW = parseInt(moment().format(INTERVAL_UNIT));
-var DATE_FORMAT = 'YYYY-MM-DD-HH-mm';
-var durationLegend = {
+const WORKER_INTERVAL = moment.duration(50, 'seconds').asMilliseconds();
+const SIZE_LIMIT = limit_size.get_max(conf.max_size); // 10MB
+const INTERVAL_UNIT = conf.interval_unit || DEFAULT_INTERVAL_UNIT; // MM = months, DD = days, mm = minutes
+const INTERVAL = Number(conf.interval) || DEFAULT_INTERVAL; // INTERVAL:1 day
+const RETAIN = Number(conf.retain); // All
+
+const NOW = Number(moment().format(INTERVAL_UNIT));
+const DATE_FORMAT = 'YYYY-MM-DD-HH-mm';
+const durationLegend = {
   MM: 'M',
   DD: 'd',
   mm: 'm'
